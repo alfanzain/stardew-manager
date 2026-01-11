@@ -20,7 +20,7 @@
     </header>
 
     <main class="container max-w-5xl py-6 space-y-6">
-      <!-- Progress -->
+      <!-- Progress Sidebar -->
       <ProgressBar :completed="progressData.completed" :total="progressData.total" :percentage="progressData.percentage" />
 
       <!-- Ingredient Summary -->
