@@ -23,8 +23,8 @@ const Index = () => {
     );
   }, [search]);
 
-  const uncheckedFoodIds = useMemo(() => 
-    foods.filter(f => !isChecked(f.id)).map(f => f.id),
+  const checkedFoodIds = useMemo(() => 
+    foods.filter(f => isChecked(f.id)).map(f => f.id),
     [isChecked]
   );
 
@@ -56,7 +56,7 @@ const Index = () => {
         <ProgressBar {...progressData} />
 
         {/* Ingredient Summary */}
-        <IngredientSummary uncheckedFoods={uncheckedFoodIds} />
+        <IngredientSummary selectedFoods={checkedFoodIds} />
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
