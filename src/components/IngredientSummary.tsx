@@ -4,7 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  uncheckedFoods: string[];
+  selectedFoods: string[];
 }
 
 interface AggregatedIngredient {
@@ -25,7 +25,7 @@ const getSourceIcon = (source: string) => {
   return <Leaf className="w-4 h-4" />;
 };
 
-export function IngredientSummary({ uncheckedFoods }: Props) {
+export function IngredientSummary({ selectedFoods }: Props) {
   const [expanded, setExpanded] = useState(true);
   const [expandedIngredients, setExpandedIngredients] = useState<Set<string>>(new Set());
 
@@ -78,7 +78,7 @@ export function IngredientSummary({ uncheckedFoods }: Props) {
     }
   };
 
-  uncheckedFoods.forEach(foodId => {
+  selectedFoods.forEach(foodId => {
     const food = foods.find(f => f.id === foodId);
     if (food) {
       food.ingredients.forEach(processIngredient);
@@ -89,14 +89,14 @@ export function IngredientSummary({ uncheckedFoods }: Props) {
     a.name.localeCompare(b.name)
   );
 
-  if (uncheckedFoods.length === 0) {
+  if (selectedFoods.length === 0) {
     return (
       <div className="bg-card border border-border rounded-xl p-6">
         <h2 className="font-heading text-lg font-semibold text-foreground mb-2">
-          🎉 All Done!
+          📦 Ingredients to Prepare
         </h2>
         <p className="text-muted-foreground text-sm">
-          You've completed all the food recipes! Amazing work, farmer!
+          Check the recipes you want to cook today to see the ingredients needed.
         </p>
       </div>
     );
