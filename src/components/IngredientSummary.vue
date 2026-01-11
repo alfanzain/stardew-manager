@@ -95,6 +95,7 @@ import { cn } from '@/lib/utils'
 
 interface Props {
   selectedFoods: string[]
+  quantities?: Record<string, number>
 }
 
 interface AggregatedIngredient {
@@ -138,14 +139,14 @@ const sortedIngredients = computed(() => {
   // Aggregate all ingredients from selected foods
   const aggregated = new Map<string, AggregatedIngredient>()
 
-  const processIngredient = (ing: Ingredient) => {
+  const processIngredient = (ing: Ingredient, multiplier: number) => {
     const existing = aggregated.get(ing.name)
     if (existing) {
-      existing.quantity += ing.quantity
+      existing.quantity += ing.quantity * multiplier
     } else {
       aggregated.set(ing.name, {
         name: ing.name,
-        quantity: ing.quantity,
+        quantity: ing.quantity * multiplier,
         source: ing.source || '',
         subIngredients: ing.subIngredients?.map(sub => ({
           name: sub.name,
@@ -160,11 +161,11 @@ const sortedIngredients = computed(() => {
       ing.subIngredients.forEach(sub => {
         const existingSub = aggregated.get(sub.name)
         if (existingSub) {
-          existingSub.quantity += sub.quantity * ing.quantity
+          existingSub.quantity += sub.quantity * ing.quantity * multiplier
         } else {
           aggregated.set(sub.name, {
             name: sub.name,
-            quantity: sub.quantity * ing.quantity,
+            quantity: sub.quantity * ing.quantity * multiplier,
             source: sub.source || ''
           })
         }
@@ -175,7 +176,8 @@ const sortedIngredients = computed(() => {
   props.selectedFoods.forEach(foodId => {
     const food = foods.find(f => f.id === foodId)
     if (food) {
-      food.ingredients.forEach(processIngredient)
+      const quantity = props.quantities?.[foodId] || 1
+      food.ingredients.forEach(ing => processIngredient(ing, quantity))
     }
   })
 

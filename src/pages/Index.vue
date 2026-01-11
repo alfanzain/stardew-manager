@@ -9,10 +9,10 @@
           </div>
           <div>
             <h1 class="font-heading text-xl font-bold text-foreground">
-              Stardew Checklist
+              Stardew Manager
             </h1>
             <p class="text-xs text-muted-foreground">
-              Track your Gourmet Chef achievement
+              Helps you manage your Stardew Valley farm.
             </p>
           </div>
         </div>
@@ -21,10 +21,10 @@
 
     <main class="container max-w-5xl py-6 space-y-6">
       <!-- Progress Sidebar -->
-      <ProgressBar :completed="progressData.completed" :total="progressData.total" :percentage="progressData.percentage" />
+      <ProgressBar :completed="completedProgressData.completed" :total="completedProgressData.total" :percentage="completedProgressData.percentage" />
 
       <!-- Ingredient Summary -->
-      <IngredientSummary :selected-foods="checkedFoodIds" />
+      <IngredientSummary :selected-foods="checkedFoodIds" :quantities="quantitiesObject" />
 
       <!-- Controls -->
       <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
@@ -50,7 +50,11 @@
           :key="food.id"
           :food="food"
           :is-checked="isChecked(food.id)"
+          :is-completed="isCompleted(food.id)"
+          :quantity="getQuantity(food.id)"
           :on-toggle="() => toggle(food.id)"
+          :on-toggle-completed="() => toggleCompleted(food.id)"
+          :on-quantity-change="(qty) => setQuantity(food.id, qty)"
           :layout="layout"
         />
       </div>
@@ -73,6 +77,8 @@
 import { ref, computed } from 'vue'
 import { foods } from '@/data/foods'
 import { useChecklist } from '@/composables/useChecklist'
+import { useCompletedFoods } from '@/composables/useCompletedFoods'
+import { useFoodQuantities } from '@/composables/useFoodQuantities'
 import IngredientSummary from '@/components/IngredientSummary.vue'
 import FoodCard from '@/components/FoodCard.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
@@ -83,7 +89,9 @@ import { cn } from '@/lib/utils'
 
 const search = ref('')
 const layout = ref<'grid' | 'list'>('grid')
-const { toggle, isChecked, progress } = useChecklist('stardew-foods')
+const { toggle, isChecked } = useChecklist('stardew-foods')
+const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletedFoods('stardew-completed-foods')
+const { setQuantity, getQuantity, quantities } = useFoodQuantities('stardew-food-quantities')
 
 const filteredFoods = computed(() => {
   if (!search.value.trim()) return foods
@@ -98,7 +106,9 @@ const checkedFoodIds = computed(() =>
   foods.filter(f => isChecked(f.id)).map(f => f.id)
 )
 
-const progressData = computed(() => progress(foods.length))
+const completedProgressData = computed(() => completedProgress(foods.length))
+
+const quantitiesObject = computed(() => quantities.value)
 
 const setSearch = (value: string) => {
   search.value = value
