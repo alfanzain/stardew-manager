@@ -42,6 +42,7 @@ import { computed } from 'vue'
 import { ChevronRight } from 'lucide-vue-next'
 import { useCompletedFoods } from '@/composables/useCompletedFoods'
 import { foods } from '@/data/foods'
+import { craftingItems } from '@/data/crafting'
 
 interface Checklist {
   id: string
@@ -56,12 +57,16 @@ const props = defineProps<{
   checklist: Checklist
 }>()
 
-// Get real progress for cooking checklist
-const { progress: getCompletedProgress } = useCompletedFoods('stardew-completed-foods')
+// Get real progress for checklists
+const { progress: getCookingProgress } = useCompletedFoods('stardew-completed-foods')
+const { progress: getCraftingProgress } = useCompletedFoods('stardew-completed-crafting')
 
 const displayProgress = computed(() => {
   if (props.checklist.id === 'cooking') {
-    return getCompletedProgress(foods.length)
+    return getCookingProgress(foods.length)
+  }
+  if (props.checklist.id === 'crafting') {
+    return getCraftingProgress(craftingItems.length)
   }
   return props.checklist.progress
 })

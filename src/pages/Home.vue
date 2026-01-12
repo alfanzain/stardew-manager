@@ -101,6 +101,14 @@ const checklists: Checklist[] = [
     description: 'Cook every recipe to become a master chef',
     route: '/cooking',
     progress: { completed: 0, total: 74 }
+  },
+  {
+    id: 'crafting',
+    name: 'Craft Master',
+    icon: '🔨',
+    description: 'Craft every item to master your workshop',
+    route: '/crafting',
+    progress: { completed: 0, total: 129 }
   }
 ]
 </script>
