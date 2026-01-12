@@ -4,11 +4,10 @@
     :class="isExpanded ? 'w-[300px] sm:w-80' : 'w-16 sm:w-20'"
   >
     <div 
-      class="bg-card border border-border rounded-xl shadow-lg cursor-pointer transition-all backdrop-blur-sm bg-card/95 group overflow-hidden"
+      class="bg-card border border-border rounded-xl cursor-pointer transition-all backdrop-blur-sm bg-card/95 group overflow-hidden"
       :class="cn(
-        'hover:shadow-xl hover:border-primary/50',
+        'hover:border-primary/50',
         percentage === 100 && 'ring-2 ring-success/50',
-        isExpanded && 'shadow-2xl'
       )"
       @click="toggleExpanded"
       @keydown.enter="toggleExpanded"
