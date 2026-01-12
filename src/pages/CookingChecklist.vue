@@ -4,15 +4,21 @@
     <header class="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div class="container max-w-5xl py-4">
         <div class="flex items-center gap-3">
+          <router-link 
+            to="/" 
+            class="flex items-center justify-center w-10 h-10 rounded-xl bg-muted hover:bg-muted/80 transition-colors"
+          >
+            <ArrowLeft class="w-5 h-5 text-muted-foreground" />
+          </router-link>
           <div class="flex items-center justify-center w-10 h-10 rounded-xl bg-secondary">
-            <Sprout class="w-5 h-5 text-secondary-foreground" />
+            <span class="text-lg">🍳</span>
           </div>
           <div>
             <h1 class="font-heading text-xl font-bold text-foreground">
-              Stardew Manager
+              Gourmet Chef
             </h1>
             <p class="text-xs text-muted-foreground">
-              Helps you manage your Stardew Valley farm.
+              Cook every recipe in Stardew Valley
             </p>
           </div>
         </div>
@@ -84,7 +90,7 @@ import FoodCard from '@/components/FoodCard.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import ViewToggle from '@/components/ViewToggle.vue'
-import { Sprout } from 'lucide-vue-next'
+import { ArrowLeft } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
 const search = ref('')
