@@ -71,9 +71,7 @@
       </section>
 
       <!-- Footer -->
-      <footer class="text-center py-8 text-sm text-muted-foreground">
-        <p>Made with 💚 for Stardew Valley farmers</p>
-      </footer>
+      <Footer />
     </main>
   </div>
 </template>
@@ -83,6 +81,7 @@ import { Sprout, ClipboardList, ShoppingBasket, StickyNote } from 'lucide-vue-ne
 import ChecklistCard from '@/components/ChecklistCard.vue'
 import OverallIngredients from '@/components/OverallIngredients.vue'
 import NotesPad from '@/components/NotesPad.vue'
+import Footer from '@/components/Footer.vue'
 
 interface Checklist {
   id: string
@@ -90,25 +89,22 @@ interface Checklist {
   icon: string
   description: string
   route: string
-  progress: { completed: number; total: number }
 }
 
 const checklists: Checklist[] = [
   {
     id: 'cooking',
-    name: 'Gourmet Chef',
+    name: 'Cooking',
     icon: '🍳',
-    description: 'Cook every recipe to become a master chef',
+    description: 'Check your ingredients and recipes to cook',
     route: '/cooking',
-    progress: { completed: 0, total: 74 }
   },
   {
     id: 'crafting',
-    name: 'Craft Master',
+    name: 'Crafting',
     icon: '🔨',
-    description: 'Craft every item to master your workshop',
+    description: 'Check your materials and recipes to craft',
     route: '/crafting',
-    progress: { completed: 0, total: 129 }
   }
 ]
 </script>
