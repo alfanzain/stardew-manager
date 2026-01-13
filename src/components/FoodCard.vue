@@ -19,7 +19,7 @@
     <div class="flex-1 min-w-0">
       <h3 :class="cn(
         'font-semibold text-sm mb-1 transition-colors',
-        isCompleted ? 'text-muted-foreground line-through' : 'text-foreground'
+        'text-foreground',
       )">
         {{ food.name }}
       </h3>
@@ -92,7 +92,7 @@
     <!-- Food Name -->
     <h3 :class="cn(
       'font-semibold text-sm text-center mb-1 transition-colors',
-      isCompleted ? 'text-muted-foreground line-through' : 'text-foreground'
+      'text-foreground',
     )">
       {{ food.name }}
     </h3>

@@ -15,10 +15,10 @@
           </div>
           <div>
             <h1 class="font-heading text-xl font-bold text-foreground">
-              Gourmet Chef
+              Cooking Checklist
             </h1>
             <p class="text-xs text-muted-foreground">
-              Cook every recipe in Stardew Valley
+              Check your ingredients and recipes to cook
             </p>
           </div>
         </div>
@@ -72,9 +72,7 @@
       </div>
 
       <!-- Footer -->
-      <footer class="text-center py-8 text-sm text-muted-foreground">
-        <p>Made with 💚 for Stardew Valley farmers</p>
-      </footer>
+      <Footer />
     </main>
   </div>
 </template>
@@ -90,6 +88,7 @@ import FoodCard from '@/components/FoodCard.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import ViewToggle from '@/components/ViewToggle.vue'
+import Footer from '@/components/Footer.vue'
 import { ArrowLeft } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 

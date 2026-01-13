@@ -15,10 +15,10 @@
           </div>
           <div>
             <h1 class="font-heading text-xl font-bold text-foreground">
-              Craft Master
+              Crafting Checklist
             </h1>
             <p class="text-xs text-muted-foreground">
-              Craft every item in Stardew Valley
+              Check your materials and recipes to craft
             </p>
           </div>
         </div>
@@ -89,9 +89,7 @@
       </div>
 
       <!-- Footer -->
-      <footer class="text-center py-8 text-sm text-muted-foreground">
-        <p>Made with 💚 for Stardew Valley farmers</p>
-      </footer>
+      <Footer />
     </main>
   </div>
 </template>
@@ -107,6 +105,7 @@ import CraftingCard from '@/components/CraftingCard.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import ViewToggle from '@/components/ViewToggle.vue'
+import Footer from '@/components/Footer.vue'
 import { ArrowLeft } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 

@@ -14,7 +14,7 @@
     <div v-if="cookingIngredients.length > 0">
       <div class="flex items-center gap-2 mb-2">
         <span class="text-lg">🍳</span>
-        <h3 class="font-medium text-sm text-foreground">Gourmet Chef</h3>
+        <h3 class="font-medium text-sm text-foreground">Cooking</h3>
         <span class="text-xs text-muted-foreground">({{ cookingIngredients.length }} items)</span>
       </div>
       <div class="grid gap-2 sm:grid-cols-2">
@@ -36,7 +36,7 @@
     <div v-if="craftingIngredients.length > 0">
       <div class="flex items-center gap-2 mb-2">
         <span class="text-lg">🔨</span>
-        <h3 class="font-medium text-sm text-foreground">Craft Master</h3>
+        <h3 class="font-medium text-sm text-foreground">Crafting</h3>
         <span class="text-xs text-muted-foreground">({{ craftingIngredients.length }} items)</span>
       </div>
       <div class="grid gap-2 sm:grid-cols-2">

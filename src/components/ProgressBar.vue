@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="fixed right-2 sm:right-4 top-20 sm:top-24 z-40 transition-all duration-300 ease-in-out overflow-hidden"
+    class="hidden fixed right-2 sm:right-4 top-20 sm:top-24 z-40 transition-all duration-300 ease-in-out overflow-hidden"
     :class="isExpanded ? 'w-[300px] sm:w-80' : 'w-16 sm:w-20'"
   >
     <div 

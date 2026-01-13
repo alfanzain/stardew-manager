@@ -16,7 +16,7 @@
         </p>
         
         <!-- Progress bar -->
-        <div class="mt-3">
+        <!-- <div class="mt-3">
           <div class="flex items-center justify-between text-xs mb-1">
             <span class="text-muted-foreground">Progress</span>
             <span class="font-medium text-foreground">{{ progressPercentage }}%</span>
@@ -30,7 +30,7 @@
           <p class="text-xs text-muted-foreground mt-1">
             {{ displayProgress.completed }}/{{ displayProgress.total }} completed
           </p>
-        </div>
+        </div> -->
       </div>
       <ChevronRight class="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
     </div>
@@ -50,29 +50,28 @@ interface Checklist {
   icon: string
   description: string
   route: string
-  progress: { completed: number; total: number }
 }
 
 const props = defineProps<{
   checklist: Checklist
 }>()
 
-// Get real progress for checklists
-const { progress: getCookingProgress } = useCompletedFoods('stardew-completed-foods')
-const { progress: getCraftingProgress } = useCompletedFoods('stardew-completed-crafting')
+//// Get real progress for checklists
+// const { progress: getCookingProgress } = useCompletedFoods('stardew-completed-foods')
+// const { progress: getCraftingProgress } = useCompletedFoods('stardew-completed-crafting')
 
-const displayProgress = computed(() => {
-  if (props.checklist.id === 'cooking') {
-    return getCookingProgress(foods.length)
-  }
-  if (props.checklist.id === 'crafting') {
-    return getCraftingProgress(craftingItems.length)
-  }
-  return props.checklist.progress
-})
+// const displayProgress = computed(() => {
+//   if (props.checklist.id === 'cooking') {
+//     return getCookingProgress(foods.length)
+//   }
+//   if (props.checklist.id === 'crafting') {
+//     return getCraftingProgress(craftingItems.length)
+//   }
+//   return props.checklist.progress
+// })
 
-const progressPercentage = computed(() => {
-  const { completed, total } = displayProgress.value
-  return total > 0 ? Math.round((completed / total) * 100) : 0
-})
+// const progressPercentage = computed(() => {
+//   const { completed, total } = displayProgress.value
+//   return total > 0 ? Math.round((completed / total) * 100) : 0
+// })
 </script>
