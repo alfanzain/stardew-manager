@@ -26,5 +26,9 @@ export function useChecklist(storageKey: string) {
     percentage: total > 0 ? Math.round((checked.value.size / total) * 100) : 0
   })
 
-  return { checked, toggle, isChecked, progress }
+  const clearAll = () => {
+    checked.value = new Set()
+  }
+
+  return { checked, toggle, isChecked, progress, clearAll }
 }

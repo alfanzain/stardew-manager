@@ -26,6 +26,21 @@
       <p class="text-xs text-muted-foreground truncate mb-2">
         {{ food.ingredients.map(i => i.name).join(', ') }}
       </p>
+
+      <!-- Buff Info (List View) -->
+      <div v-if="showBuffInfo && food.buff" class="flex items-center gap-2 mb-2">
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-accent/20 text-accent-foreground">
+          {{ getBuffIcon(food.buff.type) }} +{{ food.buff.value }} {{ formatBuffType(food.buff.type) }}
+        </span>
+        <span class="text-xs text-muted-foreground">{{ food.buff.duration }}</span>
+      </div>
+
+      <!-- Recipe Source (List View) -->
+      <div v-if="showRecipeSource" class="flex items-center gap-2 mb-2">
+        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-muted text-muted-foreground">
+          {{ getSourceIcon(food.recipeSource?.type) }} {{ formatRecipeSource(food) }}
+        </span>
+      </div>
       
       <div class="flex items-center gap-2">
         <div class="flex items-center gap-1.5 bg-muted/50 rounded-lg px-2 py-1">
@@ -79,6 +94,13 @@
       isCompleted && 'ring-2 ring-success/30 bg-success/5'
     )"
   >
+    <!-- Buff Badge -->
+    <div v-if="food.buff" class="absolute top-2 right-2">
+      <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs bg-accent/20" :title="`+${food.buff.value} ${formatBuffType(food.buff.type)} (${food.buff.duration})`">
+        {{ getBuffIcon(food.buff.type) }}
+      </span>
+    </div>
+
     <!-- Food Icon -->
     <div class="flex justify-center mb-3">
       <div :class="cn(
@@ -98,12 +120,30 @@
     </h3>
     
     <!-- Ingredients Preview -->
-    <p class="text-xs text-muted-foreground text-center mb-3 line-clamp-2 min-h-[2.5rem]">
+    <p class="text-xs text-muted-foreground text-center mb-2 line-clamp-2 min-h-[2.5rem]">
       {{ food.ingredients.map(i => i.name).join(', ') }}
     </p>
 
+    <!-- Buff Info (Grid View) -->
+    <div v-if="showBuffInfo && food.buff" class="text-center mb-2">
+      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-accent/20 text-accent-foreground">
+        +{{ food.buff.value }} {{ formatBuffType(food.buff.type) }}
+      </span>
+      <p class="text-xs text-muted-foreground mt-0.5">{{ food.buff.duration }}</p>
+    </div>
+
+    <!-- Recipe Source (Grid View) -->
+    <div v-if="showRecipeSource" class="text-center mb-2">
+      <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-muted text-muted-foreground">
+        {{ getSourceIcon(food.recipeSource?.type) }} {{ formatRecipeSourceShort(food) }}
+      </span>
+      <p v-if="getRecipeSourceDetail(food)" class="text-xs text-muted-foreground mt-0.5">
+        {{ getRecipeSourceDetail(food) }}
+      </p>
+    </div>
+
     <!-- Controls -->
-    <div class="space-y-2.5">
+    <div class="space-y-2.5 mt-auto">
       <!-- Quantity Input -->
       <div class="flex items-center justify-center gap-1.5 bg-muted/30 rounded-lg px-2.5 py-2">
         <button
@@ -176,9 +216,14 @@ interface Props {
   onToggleCompleted: () => void
   onQuantityChange: (quantity: number) => void
   layout: 'grid' | 'list'
+  showBuffInfo?: boolean
+  showRecipeSource?: boolean
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  showBuffInfo: false,
+  showRecipeSource: false
+})
 
 const handleQuantityChange = (e: Event) => {
   const target = e.target as HTMLInputElement
@@ -197,6 +242,102 @@ const handleIncrement = () => {
 const handleDecrement = () => {
   if (props.quantity > 1) {
     props.onQuantityChange(props.quantity - 1)
+  }
+}
+
+const getBuffIcon = (type: string) => {
+  const icons: Record<string, string> = {
+    'speed': '⚡',
+    'luck': '🍀',
+    'farming': '🌾',
+    'mining': '⛏️',
+    'fishing': '🎣',
+    'foraging': '🌲',
+    'attack': '⚔️',
+    'defense': '🛡️',
+    'magnetism': '🧲',
+    'max-energy': '💪'
+  }
+  return icons[type] || '✨'
+}
+
+const formatBuffType = (type: string) => {
+  return type.split('-').map(word => 
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(' ')
+}
+
+const getSourceIcon = (type?: string) => {
+  const icons: Record<string, string> = {
+    'tv': '📺',
+    'mail': '💌',
+    'skill': '⭐',
+    'starter': '🏠',
+    'shop': '🛒',
+    'event': '🎉'
+  }
+  return icons[type || ''] || '📜'
+}
+
+const formatRecipeSource = (food: Food) => {
+  const src = food.recipeSource
+  if (!src) return food.source
+
+  switch (src.type) {
+    case 'tv':
+      return `Queen of Sauce - ${src.tvDate}`
+    case 'mail':
+      return `${src.character} (${src.hearts}+ Hearts)`
+    case 'skill':
+      return `${src.skillType} Level ${src.skillLevel}`
+    case 'starter':
+      return 'Starting Recipe'
+    case 'shop':
+      return `Shop (${src.price}g)`
+    case 'event':
+      return src.eventName || 'Event'
+    default:
+      return food.source
+  }
+}
+
+const formatRecipeSourceShort = (food: Food) => {
+  const src = food.recipeSource
+  if (!src) return food.source.split(' ')[0]
+
+  switch (src.type) {
+    case 'tv':
+      return 'TV'
+    case 'mail':
+      return src.character
+    case 'skill':
+      return src.skillType
+    case 'starter':
+      return 'Starter'
+    case 'shop':
+      return 'Shop'
+    case 'event':
+      return 'Event'
+    default:
+      return food.source.split(' ')[0]
+  }
+}
+
+const getRecipeSourceDetail = (food: Food) => {
+  const src = food.recipeSource
+  if (!src) return null
+
+  switch (src.type) {
+    case 'tv':
+      return src.tvDate
+    case 'mail':
+      return `${src.hearts}+ Hearts`
+    case 'skill':
+      return `Level ${src.skillLevel}`
+    case 'shop':
+      return `${src.price}g`
+    default:
+      return null
   }
 }
 </script>
