@@ -45,6 +45,43 @@
         </div>
       </div>
 
+      <!-- Category Filter -->
+      <div class="flex flex-wrap gap-2">
+        <button
+          v-for="cat in buffCategories"
+          :key="cat.id"
+          @click="selectedBuff = selectedBuff === cat.id ? null : cat.id"
+          :class="cn(
+            'px-3 py-1.5 text-xs font-medium rounded-full border transition-colors',
+            selectedBuff === cat.id 
+              ? 'bg-primary text-primary-foreground border-primary' 
+              : 'bg-card text-muted-foreground border-border hover:border-primary/50'
+          )"
+        >
+          {{ cat.icon }} {{ cat.name }}
+        </button>
+      </div>
+
+      <!-- Toggle Options -->
+      <div class="flex flex-wrap gap-4">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input 
+            type="checkbox" 
+            v-model="showBuffInfo" 
+            class="w-4 h-4 rounded border-border text-primary focus:ring-primary"
+          />
+          <span class="text-sm text-foreground">Show Buff Info</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input 
+            type="checkbox" 
+            v-model="showRecipeSource" 
+            class="w-4 h-4 rounded border-border text-primary focus:ring-primary"
+          />
+          <span class="text-sm text-foreground">Show Recipe Source</span>
+        </label>
+      </div>
+
       <!-- Food List -->
       <div :class="cn(
         layout === 'grid' 
@@ -62,6 +99,8 @@
           :on-toggle-completed="() => toggleCompleted(food.id)"
           :on-quantity-change="(qty) => setQuantity(food.id, qty)"
           :layout="layout"
+          :show-buff-info="showBuffInfo"
+          :show-recipe-source="showRecipeSource"
         />
       </div>
 
@@ -79,7 +118,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { foods } from '@/data/foods'
+import { foods, buffCategories } from '@/data/foods'
 import { useChecklist } from '@/composables/useChecklist'
 import { useCompletedFoods } from '@/composables/useCompletedFoods'
 import { useFoodQuantities } from '@/composables/useFoodQuantities'
@@ -94,17 +133,36 @@ import { cn } from '@/lib/utils'
 
 const search = ref('')
 const layout = ref<'grid' | 'list'>('grid')
+const selectedBuff = ref<string | null>(null)
+const showBuffInfo = ref(false)
+const showRecipeSource = ref(false)
+
 const { toggle, isChecked } = useChecklist('stardew-foods')
 const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletedFoods('stardew-completed-foods')
 const { setQuantity, getQuantity, quantities } = useFoodQuantities('stardew-food-quantities')
 
 const filteredFoods = computed(() => {
-  if (!search.value.trim()) return foods
-  const searchLower = search.value.toLowerCase()
-  return foods.filter(food => 
-    food.name.toLowerCase().includes(searchLower) ||
-    food.ingredients.some(i => i.name.toLowerCase().includes(searchLower))
-  )
+  let result = foods
+
+  // Filter by buff category
+  if (selectedBuff.value) {
+    if (selectedBuff.value === 'none') {
+      result = result.filter(food => !food.buff)
+    } else {
+      result = result.filter(food => food.buff?.type === selectedBuff.value)
+    }
+  }
+
+  // Filter by search
+  if (search.value.trim()) {
+    const searchLower = search.value.toLowerCase()
+    result = result.filter(food => 
+      food.name.toLowerCase().includes(searchLower) ||
+      food.ingredients.some(i => i.name.toLowerCase().includes(searchLower))
+    )
+  }
+
+  return result
 })
 
 const checkedFoodIds = computed(() => 

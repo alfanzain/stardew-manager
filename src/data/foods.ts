@@ -5,13 +5,46 @@ export interface Ingredient {
   subIngredients?: Ingredient[];
 }
 
+export interface BuffInfo {
+  type: string;
+  value?: number;
+  duration?: string;
+}
+
+export interface RecipeSource {
+  type: 'tv' | 'mail' | 'skill' | 'starter' | 'shop' | 'event';
+  character?: string;
+  hearts?: number;
+  tvDate?: string;
+  skillLevel?: number;
+  skillType?: string;
+  price?: number;
+  eventName?: string;
+}
+
 export interface Food {
   id: string;
   name: string;
   ingredients: Ingredient[];
   source: string;
+  recipeSource?: RecipeSource;
   sellPrice: number;
+  buff?: BuffInfo;
 }
+
+export const buffCategories = [
+  { id: 'speed', name: 'Speed', icon: '⚡' },
+  { id: 'luck', name: 'Luck', icon: '🍀' },
+  { id: 'farming', name: 'Farming', icon: '🌾' },
+  { id: 'mining', name: 'Mining', icon: '⛏️' },
+  { id: 'fishing', name: 'Fishing', icon: '🎣' },
+  { id: 'foraging', name: 'Foraging', icon: '🌲' },
+  { id: 'attack', name: 'Attack', icon: '⚔️' },
+  { id: 'defense', name: 'Defense', icon: '🛡️' },
+  { id: 'magnetism', name: 'Magnetism', icon: '🧲' },
+  { id: 'max-energy', name: 'Max Energy', icon: '💪' },
+  { id: 'none', name: 'No Buff', icon: '🍽️' }
+];
 
 export const foods: Food[] = [
   {
@@ -19,6 +52,7 @@ export const foods: Food[] = [
     name: "Fried Egg",
     ingredients: [{ name: "Egg", quantity: 1, source: "Chicken" }],
     source: "Starter",
+    recipeSource: { type: 'starter' },
     sellPrice: 35
   },
   {
@@ -29,6 +63,7 @@ export const foods: Food[] = [
       { name: "Milk", quantity: 1, source: "Cow" }
     ],
     source: "The Queen of Sauce (Year 1, Spring 28)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Spring 28' },
     sellPrice: 125
   },
   {
@@ -39,6 +74,7 @@ export const foods: Food[] = [
       { name: "Dandelion", quantity: 1, source: "Foraging (Spring)" }
     ],
     source: "Emily (Mail, 3+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Emily', hearts: 3 },
     sellPrice: 110
   },
   {
@@ -49,6 +85,7 @@ export const foods: Food[] = [
       { name: "Cheese", quantity: 1, source: "Cheese Press", subIngredients: [{ name: "Milk", quantity: 1, source: "Cow" }] }
     ],
     source: "The Queen of Sauce (Year 1, Spring 14)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Spring 14' },
     sellPrice: 300
   },
   {
@@ -60,6 +97,7 @@ export const foods: Food[] = [
       { name: "Wheat Flour", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 1, Summer 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Summer 7' },
     sellPrice: 100
   },
   {
@@ -71,6 +109,7 @@ export const foods: Food[] = [
       { name: "Vinegar", quantity: 1, source: "Pierre's Shop" }
     ],
     source: "The Queen of Sauce (Year 1, Fall 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Fall 7' },
     sellPrice: 120
   },
   {
@@ -81,6 +120,7 @@ export const foods: Food[] = [
       { name: "Beet", quantity: 1, source: "Farming (Fall)" }
     ],
     source: "Caroline (Mail, 7+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Caroline', hearts: 7 },
     sellPrice: 120
   },
   {
@@ -93,7 +133,9 @@ export const foods: Food[] = [
       { name: "Pancakes", quantity: 1, source: "Cooking", subIngredients: [{ name: "Wheat Flour", quantity: 1, source: "Mill" }, { name: "Egg", quantity: 1, source: "Chicken" }] }
     ],
     source: "The Queen of Sauce (Year 2, Spring 21)",
-    sellPrice: 350
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Spring 21' },
+    sellPrice: 350,
+    buff: { type: 'farming', value: 2, duration: '7m 41s' }
   },
   {
     id: "fried-calamari",
@@ -104,6 +146,7 @@ export const foods: Food[] = [
       { name: "Oil", quantity: 1, source: "Oil Maker" }
     ],
     source: "Jodi (Mail, 3+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Jodi', hearts: 3 },
     sellPrice: 150
   },
   {
@@ -115,6 +158,7 @@ export const foods: Food[] = [
       { name: "Void Mayonnaise", quantity: 1, source: "Mayonnaise Machine", subIngredients: [{ name: "Void Egg", quantity: 1, source: "Void Chicken" }] }
     ],
     source: "Shane (Mail, 7+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Shane', hearts: 7 },
     sellPrice: 225
   },
   {
@@ -126,7 +170,9 @@ export const foods: Food[] = [
       { name: "Blue Jazz", quantity: 1, source: "Farming (Spring)" }
     ],
     source: "The Queen of Sauce (Year 2, Spring 28)",
-    sellPrice: 250
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Spring 28' },
+    sellPrice: 250,
+    buff: { type: 'luck', value: 3, duration: '11m 11s' }
   },
   {
     id: "fried-mushroom",
@@ -137,7 +183,9 @@ export const foods: Food[] = [
       { name: "Oil", quantity: 1, source: "Oil Maker" }
     ],
     source: "The Queen of Sauce (Year 2, Fall 14)",
-    sellPrice: 135
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 14' },
+    sellPrice: 135,
+    buff: { type: 'attack', value: 2, duration: '5m 35s' }
   },
   {
     id: "pizza",
@@ -148,6 +196,7 @@ export const foods: Food[] = [
       { name: "Cheese", quantity: 1, source: "Cheese Press", subIngredients: [{ name: "Milk", quantity: 1, source: "Cow" }] }
     ],
     source: "The Queen of Sauce (Year 2, Spring 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Spring 7' },
     sellPrice: 300
   },
   {
@@ -157,7 +206,9 @@ export const foods: Food[] = [
       { name: "Green Bean", quantity: 2, source: "Farming (Spring)" }
     ],
     source: "The Queen of Sauce (Year 1, Summer 21)",
-    sellPrice: 100
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Summer 21' },
+    sellPrice: 100,
+    buff: { type: 'magnetism', value: 32, duration: '5m 35s' }
   },
   {
     id: "glazed-yams",
@@ -167,6 +218,7 @@ export const foods: Food[] = [
       { name: "Sugar", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 1, Fall 21)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Fall 21' },
     sellPrice: 200
   },
   {
@@ -176,6 +228,7 @@ export const foods: Food[] = [
       { name: "Carp", quantity: 4, source: "Fishing (All Seasons)" }
     ],
     source: "The Queen of Sauce (Year 2, Summer 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Summer 7' },
     sellPrice: 150
   },
   {
@@ -186,7 +239,9 @@ export const foods: Food[] = [
       { name: "Oil", quantity: 1, source: "Oil Maker" }
     ],
     source: "The Queen of Sauce (Year 2, Spring 14)",
-    sellPrice: 120
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Spring 14' },
+    sellPrice: 120,
+    buff: { type: 'farming', value: 1, duration: '5m 35s' }
   },
   {
     id: "pancakes",
@@ -196,7 +251,9 @@ export const foods: Food[] = [
       { name: "Egg", quantity: 1, source: "Chicken" }
     ],
     source: "The Queen of Sauce (Year 1, Summer 14)",
-    sellPrice: 80
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Summer 14' },
+    sellPrice: 80,
+    buff: { type: 'foraging', value: 2, duration: '11m 11s' }
   },
   {
     id: "salmon-dinner",
@@ -207,7 +264,9 @@ export const foods: Food[] = [
       { name: "Kale", quantity: 1, source: "Farming (Fall)" }
     ],
     source: "The Queen of Sauce (Year 1, Fall 28)",
-    sellPrice: 300
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Fall 28' },
+    sellPrice: 300,
+    buff: { type: 'defense', value: 3, duration: '5m 35s' }
   },
   {
     id: "fish-taco",
@@ -219,7 +278,9 @@ export const foods: Food[] = [
       { name: "Mayonnaise", quantity: 1, source: "Mayonnaise Machine" }
     ],
     source: "Linus (Mail, 7+ Hearts)",
-    sellPrice: 500
+    recipeSource: { type: 'mail', character: 'Linus', hearts: 7 },
+    sellPrice: 500,
+    buff: { type: 'fishing', value: 2, duration: '5m 35s' }
   },
   {
     id: "crispy-bass",
@@ -230,6 +291,7 @@ export const foods: Food[] = [
       { name: "Oil", quantity: 1, source: "Oil Maker" }
     ],
     source: "The Queen of Sauce (Year 2, Fall 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 7' },
     sellPrice: 150
   },
   {
@@ -240,7 +302,9 @@ export const foods: Food[] = [
       { name: "Cheese", quantity: 1, source: "Cheese Press", subIngredients: [{ name: "Milk", quantity: 1, source: "Cow" }] }
     ],
     source: "Shane (Mail, 3+ Hearts)",
-    sellPrice: 200
+    recipeSource: { type: 'mail', character: 'Shane', hearts: 3 },
+    sellPrice: 200,
+    buff: { type: 'speed', value: 1, duration: '7m' }
   },
   {
     id: "bread",
@@ -249,6 +313,7 @@ export const foods: Food[] = [
       { name: "Wheat Flour", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 1, Summer 28)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Summer 28' },
     sellPrice: 60
   },
   {
@@ -260,7 +325,9 @@ export const foods: Food[] = [
       { name: "Common Mushroom", quantity: 1, source: "Foraging (Fall)" }
     ],
     source: "Sandy (Mail, 7+ Hearts)",
-    sellPrice: 250
+    recipeSource: { type: 'mail', character: 'Sandy', hearts: 7 },
+    sellPrice: 250,
+    buff: { type: 'max-energy', value: 30, duration: '7m' }
   },
   {
     id: "trout-soup",
@@ -270,7 +337,9 @@ export const foods: Food[] = [
       { name: "Green Algae", quantity: 1, source: "Fishing" }
     ],
     source: "The Queen of Sauce (Year 1, Fall 14)",
-    sellPrice: 100
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Fall 14' },
+    sellPrice: 100,
+    buff: { type: 'fishing', value: 1, duration: '4m 39s' }
   },
   {
     id: "chocolate-cake",
@@ -281,6 +350,7 @@ export const foods: Food[] = [
       { name: "Egg", quantity: 1, source: "Chicken" }
     ],
     source: "The Queen of Sauce (Year 1, Winter 14)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Winter 14' },
     sellPrice: 200
   },
   {
@@ -293,6 +363,7 @@ export const foods: Food[] = [
       { name: "Egg", quantity: 1, source: "Chicken" }
     ],
     source: "The Queen of Sauce (Year 2, Summer 21)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Summer 21' },
     sellPrice: 480
   },
   {
@@ -304,6 +375,7 @@ export const foods: Food[] = [
       { name: "Sugar", quantity: 1, source: "Mill or Shop" }
     ],
     source: "Marnie (Mail, 7+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Marnie', hearts: 7 },
     sellPrice: 400
   },
   {
@@ -315,6 +387,7 @@ export const foods: Food[] = [
       { name: "Egg", quantity: 1, source: "Chicken" }
     ],
     source: "Evelyn (Mail, 4+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Evelyn', hearts: 4 },
     sellPrice: 140
   },
   {
@@ -325,6 +398,7 @@ export const foods: Food[] = [
       { name: "Tomato", quantity: 1, source: "Farming (Summer)" }
     ],
     source: "Lewis (Mail, 3+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Lewis', hearts: 3 },
     sellPrice: 120
   },
   {
@@ -335,7 +409,9 @@ export const foods: Food[] = [
       { name: "Oil", quantity: 1, source: "Oil Maker" }
     ],
     source: "George (Mail, 3+ Hearts)",
-    sellPrice: 120
+    recipeSource: { type: 'mail', character: 'George', hearts: 3 },
+    sellPrice: 120,
+    buff: { type: 'luck', value: 1, duration: '5m 35s' }
   },
   {
     id: "spicy-eel",
@@ -345,7 +421,9 @@ export const foods: Food[] = [
       { name: "Hot Pepper", quantity: 1, source: "Farming (Summer)" }
     ],
     source: "George (Mail, 7+ Hearts)",
-    sellPrice: 175
+    recipeSource: { type: 'mail', character: 'George', hearts: 7 },
+    sellPrice: 175,
+    buff: { type: 'luck', value: 1, duration: '5m 35s' }
   },
   {
     id: "sashimi",
@@ -354,6 +432,7 @@ export const foods: Food[] = [
       { name: "Any Fish", quantity: 1, source: "Fishing" }
     ],
     source: "Linus (Mail, 3+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Linus', hearts: 3 },
     sellPrice: 75
   },
   {
@@ -365,6 +444,7 @@ export const foods: Food[] = [
       { name: "Rice", quantity: 1, source: "Mill", subIngredients: [{ name: "Unmilled Rice", quantity: 1, source: "Farming (Spring)" }] }
     ],
     source: "The Queen of Sauce (Year 1, Summer 21)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Summer 21' },
     sellPrice: 220
   },
   {
@@ -374,6 +454,7 @@ export const foods: Food[] = [
       { name: "Corn", quantity: 1, source: "Farming (Summer/Fall)" }
     ],
     source: "The Queen of Sauce (Year 1, Fall 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Fall 7' },
     sellPrice: 50
   },
   {
@@ -384,7 +465,9 @@ export const foods: Food[] = [
       { name: "Radish", quantity: 1, source: "Farming (Summer)" }
     ],
     source: "Emily (Mail, 7+ Hearts)",
-    sellPrice: 400
+    recipeSource: { type: 'mail', character: 'Emily', hearts: 7 },
+    sellPrice: 400,
+    buff: { type: 'max-energy', value: 50, duration: '3m 30s' }
   },
   {
     id: "eggplant-parmesan",
@@ -394,7 +477,9 @@ export const foods: Food[] = [
       { name: "Tomato", quantity: 1, source: "Farming (Summer)" }
     ],
     source: "Lewis (Mail, 7+ Hearts)",
-    sellPrice: 200
+    recipeSource: { type: 'mail', character: 'Lewis', hearts: 7 },
+    sellPrice: 200,
+    buff: { type: 'mining', value: 1, duration: '4m 39s' }
   },
   {
     id: "rice-pudding",
@@ -405,6 +490,7 @@ export const foods: Food[] = [
       { name: "Rice", quantity: 1, source: "Mill", subIngredients: [{ name: "Unmilled Rice", quantity: 1, source: "Farming (Spring)" }] }
     ],
     source: "Evelyn (Mail, 7+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Evelyn', hearts: 7 },
     sellPrice: 260
   },
   {
@@ -415,6 +501,7 @@ export const foods: Food[] = [
       { name: "Sugar", quantity: 1, source: "Mill or Shop" }
     ],
     source: "Jodi (Mail, 7+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Jodi', hearts: 7 },
     sellPrice: 120
   },
   {
@@ -427,6 +514,7 @@ export const foods: Food[] = [
       { name: "Egg", quantity: 1, source: "Chicken" }
     ],
     source: "Pierre (Mail, 3+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Pierre', hearts: 3 },
     sellPrice: 150
   },
   {
@@ -437,7 +525,9 @@ export const foods: Food[] = [
       { name: "Pumpkin", quantity: 1, source: "Farming (Fall)" }
     ],
     source: "The Queen of Sauce (Year 2, Fall 28)",
-    sellPrice: 350
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 28' },
+    sellPrice: 350,
+    buff: { type: 'foraging', value: 2, duration: '7m 41s' }
   },
   {
     id: "pumpkin-soup",
@@ -447,7 +537,9 @@ export const foods: Food[] = [
       { name: "Milk", quantity: 1, source: "Cow" }
     ],
     source: "Robin (Mail, 7+ Hearts)",
-    sellPrice: 300
+    recipeSource: { type: 'mail', character: 'Robin', hearts: 7 },
+    sellPrice: 300,
+    buff: { type: 'luck', value: 2, duration: '7m 41s' }
   },
   {
     id: "super-meal",
@@ -458,7 +550,9 @@ export const foods: Food[] = [
       { name: "Artichoke", quantity: 1, source: "Farming (Fall)" }
     ],
     source: "The Queen of Sauce (Year 2, Fall 21)",
-    sellPrice: 220
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 21' },
+    sellPrice: 220,
+    buff: { type: 'speed', value: 1, duration: '3m 30s' }
   },
   {
     id: "cranberry-sauce",
@@ -468,6 +562,7 @@ export const foods: Food[] = [
       { name: "Sugar", quantity: 1, source: "Mill or Shop" }
     ],
     source: "Gus (Mail, 7+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Gus', hearts: 7 },
     sellPrice: 120
   },
   {
@@ -479,6 +574,7 @@ export const foods: Food[] = [
       { name: "Hazelnut", quantity: 1, source: "Foraging (Fall)" }
     ],
     source: "Pam (Mail, 7+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Pam', hearts: 7 },
     sellPrice: 165
   },
   {
@@ -489,7 +585,9 @@ export const foods: Food[] = [
       { name: "Parsnip", quantity: 1, source: "Farming (Spring)" }
     ],
     source: "Farming Level 3",
-    sellPrice: 150
+    recipeSource: { type: 'skill', skillType: 'Farming', skillLevel: 3 },
+    sellPrice: 150,
+    buff: { type: 'farming', value: 3, duration: '5m 35s' }
   },
   {
     id: "survival-burger",
@@ -500,7 +598,9 @@ export const foods: Food[] = [
       { name: "Eggplant", quantity: 1, source: "Farming (Fall)" }
     ],
     source: "Foraging Level 2",
-    sellPrice: 180
+    recipeSource: { type: 'skill', skillType: 'Foraging', skillLevel: 2 },
+    sellPrice: 180,
+    buff: { type: 'foraging', value: 3, duration: '5m 35s' }
   },
   {
     id: "dish-o-the-sea",
@@ -510,7 +610,9 @@ export const foods: Food[] = [
       { name: "Hashbrowns", quantity: 1, source: "Cooking", subIngredients: [{ name: "Potato", quantity: 1, source: "Farming (Spring)" }, { name: "Oil", quantity: 1, source: "Oil Maker" }] }
     ],
     source: "Fishing Level 3",
-    sellPrice: 220
+    recipeSource: { type: 'skill', skillType: 'Fishing', skillLevel: 3 },
+    sellPrice: 220,
+    buff: { type: 'fishing', value: 3, duration: '5m 35s' }
   },
   {
     id: "miners-treat",
@@ -521,7 +623,9 @@ export const foods: Food[] = [
       { name: "Milk", quantity: 1, source: "Cow" }
     ],
     source: "Mining Level 3",
-    sellPrice: 200
+    recipeSource: { type: 'skill', skillType: 'Mining', skillLevel: 3 },
+    sellPrice: 200,
+    buff: { type: 'mining', value: 3, duration: '5m 35s' }
   },
   {
     id: "roots-platter",
@@ -531,7 +635,9 @@ export const foods: Food[] = [
       { name: "Winter Root", quantity: 1, source: "Foraging (Winter)" }
     ],
     source: "Combat Level 3",
-    sellPrice: 100
+    recipeSource: { type: 'skill', skillType: 'Combat', skillLevel: 3 },
+    sellPrice: 100,
+    buff: { type: 'attack', value: 3, duration: '5m 35s' }
   },
   {
     id: "triple-shot-espresso",
@@ -540,7 +646,9 @@ export const foods: Food[] = [
       { name: "Coffee", quantity: 3, source: "Keg", subIngredients: [{ name: "Coffee Bean", quantity: 5, source: "Farming (Spring/Summer)" }] }
     ],
     source: "The Queen of Sauce (Year 2, Winter 21)",
-    sellPrice: 450
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Winter 21' },
+    sellPrice: 450,
+    buff: { type: 'speed', value: 1, duration: '4m 12s' }
   },
   {
     id: "seafoam-pudding",
@@ -550,7 +658,9 @@ export const foods: Food[] = [
       { name: "Midnight Carp", quantity: 1, source: "Fishing (Fall/Winter, Night)" }
     ],
     source: "Fishing Level 9",
-    sellPrice: 300
+    recipeSource: { type: 'skill', skillType: 'Fishing', skillLevel: 9 },
+    sellPrice: 300,
+    buff: { type: 'fishing', value: 4, duration: '10m' }
   },
   {
     id: "algae-soup",
@@ -559,6 +669,7 @@ export const foods: Food[] = [
       { name: "Green Algae", quantity: 4, source: "Fishing" }
     ],
     source: "Fishing Level 3",
+    recipeSource: { type: 'skill', skillType: 'Fishing', skillLevel: 3 },
     sellPrice: 100
   },
   {
@@ -568,6 +679,7 @@ export const foods: Food[] = [
       { name: "White Algae", quantity: 2, source: "Fishing (Sewers/Mines)" }
     ],
     source: "Fishing Level 3",
+    recipeSource: { type: 'skill', skillType: 'Fishing', skillLevel: 3 },
     sellPrice: 150
   },
   {
@@ -579,6 +691,7 @@ export const foods: Food[] = [
       { name: "Sugar", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 1, Winter 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Winter 7' },
     sellPrice: 260
   },
   {
@@ -589,6 +702,7 @@ export const foods: Food[] = [
       { name: "Milk", quantity: 1, source: "Cow" }
     ],
     source: "The Queen of Sauce (Year 1, Fall 28)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Fall 28' },
     sellPrice: 210
   },
   {
@@ -601,6 +715,7 @@ export const foods: Food[] = [
       { name: "Oil", quantity: 1, source: "Oil Maker" }
     ],
     source: "The Queen of Sauce (Year 1, Spring 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Spring 7' },
     sellPrice: 335
   },
   {
@@ -610,6 +725,7 @@ export const foods: Food[] = [
       { name: "Hazelnut", quantity: 3, source: "Foraging (Fall)" }
     ],
     source: "The Queen of Sauce (Year 2, Summer 28)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Summer 28' },
     sellPrice: 270
   },
   {
@@ -622,6 +738,7 @@ export const foods: Food[] = [
       { name: "Sugar", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 1, Winter 21)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Winter 21' },
     sellPrice: 385
   },
   {
@@ -633,6 +750,7 @@ export const foods: Food[] = [
       { name: "Vinegar", quantity: 1, source: "Pierre's Shop" }
     ],
     source: "The Queen of Sauce (Year 1, Spring 21)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Spring 21' },
     sellPrice: 300
   },
   {
@@ -644,6 +762,7 @@ export const foods: Food[] = [
       { name: "Apricot", quantity: 1, source: "Fruit Tree" }
     ],
     source: "The Queen of Sauce (Year 2, Fall 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 7' },
     sellPrice: 450
   },
   {
@@ -655,6 +774,7 @@ export const foods: Food[] = [
       { name: "Wheat Flour", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 2, Fall 14)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 14' },
     sellPrice: 260
   },
   {
@@ -666,6 +786,7 @@ export const foods: Food[] = [
       { name: "Sugar", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 1, Winter 28)",
+    recipeSource: { type: 'tv', tvDate: 'Year 1, Winter 28' },
     sellPrice: 175
   },
   {
@@ -677,6 +798,7 @@ export const foods: Food[] = [
       { name: "Tomato", quantity: 1, source: "Farming (Summer)" }
     ],
     source: "The Queen of Sauce (Year 2, Winter 14)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Winter 14' },
     sellPrice: 210
   },
   {
@@ -688,6 +810,7 @@ export const foods: Food[] = [
       { name: "Mayonnaise", quantity: 1, source: "Mayonnaise Machine" }
     ],
     source: "The Queen of Sauce (Year 2, Spring 14)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Spring 14' },
     sellPrice: 345
   },
   {
@@ -699,6 +822,7 @@ export const foods: Food[] = [
       { name: "Garlic", quantity: 1, source: "Farming (Spring)" }
     ],
     source: "The Queen of Sauce (Year 2, Fall 28)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 28' },
     sellPrice: 350
   },
   {
@@ -710,6 +834,7 @@ export const foods: Food[] = [
       { name: "Sugar", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 2, Winter 7)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Winter 7' },
     sellPrice: 250
   },
   {
@@ -720,6 +845,7 @@ export const foods: Food[] = [
       { name: "Milk", quantity: 1, source: "Cow" }
     ],
     source: "Willy (Mail, 3+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Willy', hearts: 3 },
     sellPrice: 135
   },
   {
@@ -732,7 +858,9 @@ export const foods: Food[] = [
       { name: "Tomato", quantity: 1, source: "Farming (Summer)" }
     ],
     source: "Willy (Mail, 7+ Hearts)",
-    sellPrice: 175
+    recipeSource: { type: 'mail', character: 'Willy', hearts: 7 },
+    sellPrice: 175,
+    buff: { type: 'fishing', value: 3, duration: '16m 47s' }
   },
   {
     id: "escargot",
@@ -742,7 +870,9 @@ export const foods: Food[] = [
       { name: "Garlic", quantity: 1, source: "Farming (Spring)" }
     ],
     source: "Willy (Mail, 5+ Hearts)",
-    sellPrice: 125
+    recipeSource: { type: 'mail', character: 'Willy', hearts: 5 },
+    sellPrice: 125,
+    buff: { type: 'fishing', value: 2, duration: '16m 47s' }
   },
   {
     id: "lobster-bisque",
@@ -752,7 +882,9 @@ export const foods: Food[] = [
       { name: "Milk", quantity: 1, source: "Cow" }
     ],
     source: "The Queen of Sauce (Year 2, Winter 14)",
-    sellPrice: 205
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Winter 14' },
+    sellPrice: 205,
+    buff: { type: 'fishing', value: 3, duration: '16m 47s' }
   },
   {
     id: "maple-bar",
@@ -763,7 +895,9 @@ export const foods: Food[] = [
       { name: "Wheat Flour", quantity: 1, source: "Mill or Shop" }
     ],
     source: "The Queen of Sauce (Year 2, Summer 14)",
-    sellPrice: 300
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Summer 14' },
+    sellPrice: 300,
+    buff: { type: 'farming', value: 1, duration: '16m 47s' }
   },
   {
     id: "crab-cakes",
@@ -775,6 +909,7 @@ export const foods: Food[] = [
       { name: "Oil", quantity: 1, source: "Oil Maker" }
     ],
     source: "The Queen of Sauce (Year 2, Fall 21)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 21' },
     sellPrice: 275
   }
 ];
