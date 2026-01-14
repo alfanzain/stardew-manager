@@ -37,15 +37,15 @@
 
       <!-- Two Column Section -->
       <section class="grid gap-6 lg:grid-cols-2">
-        <!-- Left: Overall Ingredients -->
+        <!-- Left: Daily Prep -->
         <div class="bg-card border border-border rounded-xl overflow-hidden">
           <div class="p-4 border-b border-border bg-muted/30">
             <h2 class="font-heading text-lg font-semibold text-foreground flex items-center gap-2">
               <ShoppingBasket class="w-5 h-5 text-primary" />
-              Today's Shopping List
+              Daily Prep
             </h2>
             <p class="text-xs text-muted-foreground mt-1">
-              Ingredients needed from your selected recipes
+              Today's recipes and ingredients to gather
             </p>
           </div>
           <div class="p-4">
