@@ -34,7 +34,7 @@
           :key="'food-' + food.id"
           :class="cn(
             'flex items-center gap-3 p-2.5 rounded-lg border transition-all',
-            isCookingCompleted(food.id)
+            isCookingDone(food.id)
               ? 'bg-success/10 border-success/30'
               : 'bg-muted/30 border-border'
           )"
@@ -43,24 +43,24 @@
             <span class="text-sm">🍽️</span>
             <span :class="cn(
               'text-sm truncate',
-              isCookingCompleted(food.id) ? 'line-through text-muted-foreground' : 'text-foreground'
+              isCookingDone(food.id) ? 'line-through text-muted-foreground' : 'text-foreground'
             )">
               {{ food.name }}
             </span>
             <span class="text-xs text-muted-foreground">×{{ cookingQuantities[food.id] || 1 }}</span>
           </div>
           <button
-            @click="toggleCookingCompleted(food.id)"
+            @click="toggleCookingDone(food.id)"
             :class="cn(
               'px-2.5 py-1 rounded-md text-xs font-medium transition-all flex items-center gap-1',
-              isCookingCompleted(food.id)
+              isCookingDone(food.id)
                 ? 'bg-success text-white hover:bg-success/90'
                 : 'bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground'
             )"
           >
-            <CheckCircle v-if="isCookingCompleted(food.id)" class="w-3 h-3" />
+            <CheckCircle v-if="isCookingDone(food.id)" class="w-3 h-3" />
             <Circle v-else class="w-3 h-3" />
-            {{ isCookingCompleted(food.id) ? 'Done' : 'Done?' }}
+            {{ isCookingDone(food.id) ? 'Done' : 'Done?' }}
           </button>
         </div>
       </div>
@@ -109,7 +109,7 @@
           :key="'craft-' + item.id"
           :class="cn(
             'flex items-center gap-3 p-2.5 rounded-lg border transition-all',
-            isCraftingCompleted(item.id)
+            isCraftingDone(item.id)
               ? 'bg-success/10 border-success/30'
               : 'bg-muted/30 border-border'
           )"
@@ -118,24 +118,24 @@
             <span class="text-sm">⚒️</span>
             <span :class="cn(
               'text-sm truncate',
-              isCraftingCompleted(item.id) ? 'line-through text-muted-foreground' : 'text-foreground'
+              isCraftingDone(item.id) ? 'line-through text-muted-foreground' : 'text-foreground'
             )">
               {{ item.name }}
             </span>
             <span class="text-xs text-muted-foreground">×{{ craftingQuantities[item.id] || 1 }}</span>
           </div>
           <button
-            @click="toggleCraftingCompleted(item.id)"
+            @click="toggleCraftingDone(item.id)"
             :class="cn(
               'px-2.5 py-1 rounded-md text-xs font-medium transition-all flex items-center gap-1',
-              isCraftingCompleted(item.id)
+              isCraftingDone(item.id)
                 ? 'bg-success text-white hover:bg-success/90'
                 : 'bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground'
             )"
           >
-            <CheckCircle v-if="isCraftingCompleted(item.id)" class="w-3 h-3" />
+            <CheckCircle v-if="isCraftingDone(item.id)" class="w-3 h-3" />
             <Circle v-else class="w-3 h-3" />
-            {{ isCraftingCompleted(item.id) ? 'Done' : 'Done?' }}
+            {{ isCraftingDone(item.id) ? 'Done' : 'Done?' }}
           </button>
         </div>
       </div>
@@ -168,7 +168,6 @@ import { foods, Ingredient } from '@/data/foods'
 import { craftingItems, CraftingIngredient } from '@/data/crafting'
 import { useChecklistCooking, useChecklistCrafting } from '@/composables/useChecklist'
 import { useFoodQuantities } from '@/composables/useFoodQuantities'
-import { useCompletionCooking, useCompletionCrafting } from '@/composables/useCompletion'
 import { Leaf, Milk, Fish, Pickaxe, Store, FlaskConical, TreeDeciduous, Sword, CheckCircle, Circle } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
@@ -179,13 +178,13 @@ interface AggregatedIngredient {
   isDone: boolean
 }
 
-const { isChecked: isCookingChecked, clearAll: clearAllCookingChecks } = useChecklistCooking()
+// Cooking checklist - use isDone for marking items done in the shopping list
+const { isInTodo: isCookingInTodo, isDone: isCookingDone, toggleDone: toggleCookingDone, clearAll: clearAllCookingChecks } = useChecklistCooking()
 const { quantities: cookingQuantitiesRef } = useFoodQuantities('stardew-food-quantities')
-const { isCompleted: isCookingCompleted, toggleCompleted: toggleCookingCompleted } = useCompletionCooking()
 
-const { isChecked: isCraftingChecked, clearAll: clearAllCraftingChecks } = useChecklistCrafting()
+// Crafting checklist - use isDone for marking items done in the shopping list
+const { isInTodo: isCraftingInTodo, isDone: isCraftingDone, toggleDone: toggleCraftingDone, clearAll: clearAllCraftingChecks } = useChecklistCrafting()
 const { quantities: craftingQuantitiesRef } = useFoodQuantities('stardew-crafting-quantities')
-const { isCompleted: isCraftingCompleted, toggleCompleted: toggleCraftingCompleted } = useCompletionCrafting()
 
 const cookingQuantities = computed(() => cookingQuantitiesRef.value)
 const craftingQuantities = computed(() => craftingQuantitiesRef.value)
@@ -212,18 +211,18 @@ const getCraftingSourceIcon = (source: string) => {
 }
 
 const selectedCookingFoods = computed(() => 
-  foods.filter(f => isCookingChecked(f.id))
+  foods.filter(f => isCookingInTodo(f.id))
 )
 
 const selectedCraftingItems = computed(() => 
-  craftingItems.filter(i => isCraftingChecked(i.id))
+  craftingItems.filter(i => isCraftingInTodo(i.id))
 )
 
 const cookingIngredients = computed(() => {
   const aggregated = new Map<string, AggregatedIngredient>()
 
   const processIngredient = (ing: Ingredient, multiplier: number, foodId: string) => {
-    const isDone = isCookingCompleted(foodId)
+    const isDone = isCookingDone(foodId)
     const existing = aggregated.get(ing.name)
     if (existing) {
       existing.quantity += ing.quantity * multiplier
@@ -256,7 +255,7 @@ const cookingIngredients = computed(() => {
   }
 
   foods.forEach(food => {
-    if (isCookingChecked(food.id)) {
+    if (isCookingInTodo(food.id)) {
       const quantity = cookingQuantities.value[food.id] || 1
       food.ingredients.forEach(ing => processIngredient(ing, quantity, food.id))
     }
@@ -272,7 +271,7 @@ const craftingIngredients = computed(() => {
   const aggregated = new Map<string, AggregatedIngredient>()
 
   const processIngredient = (ing: CraftingIngredient, multiplier: number, itemId: string) => {
-    const isDone = isCraftingCompleted(itemId)
+    const isDone = isCraftingDone(itemId)
     const existing = aggregated.get(ing.name)
     if (existing) {
       existing.quantity += ing.quantity * multiplier
@@ -305,7 +304,7 @@ const craftingIngredients = computed(() => {
   }
 
   craftingItems.forEach(item => {
-    if (isCraftingChecked(item.id)) {
+    if (isCraftingInTodo(item.id)) {
       const quantity = craftingQuantities.value[item.id] || 1
       item.ingredients.forEach(ing => processIngredient(ing, quantity, item.id))
     }

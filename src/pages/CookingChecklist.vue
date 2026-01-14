@@ -92,10 +92,10 @@
           v-for="food in filteredFoods"
           :key="food.id"
           :food="food"
-          :is-checked="isChecked(food.id)"
+          :is-checked="isInTodo(food.id)"
           :is-completed="isCompleted(food.id)"
           :quantity="getQuantity(food.id)"
-          :on-toggle="() => toggle(food.id)"
+          :on-toggle="() => toggleTodo(food.id)"
           :on-toggle-completed="() => toggleCompleted(food.id)"
           :on-quantity-change="(qty) => setQuantity(food.id, qty)"
           :layout="layout"
@@ -137,7 +137,7 @@ const selectedBuff = ref<string | null>(null)
 const showBuffInfo = ref(false)
 const showRecipeSource = ref(false)
 
-const { toggle, isChecked } = useChecklistCooking()
+const { toggleTodo, isInTodo } = useChecklistCooking()
 const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletionCooking()
 const { setQuantity, getQuantity, quantities } = useFoodQuantities('stardew-food-quantities')
 
@@ -166,7 +166,7 @@ const filteredFoods = computed(() => {
 })
 
 const checkedFoodIds = computed(() => 
-  foods.filter(f => isChecked(f.id)).map(f => f.id)
+  foods.filter(f => isInTodo(f.id)).map(f => f.id)
 )
 
 const completedProgressData = computed(() => completedProgress(foods.length))
