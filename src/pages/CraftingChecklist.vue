@@ -97,13 +97,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { craftingItems } from '@/data/crafting'
-import { useChecklist } from '@/composables/useChecklist'
-import { useCompletedFoods } from '@/composables/useCompletedFoods'
+import { useChecklistCrafting } from '@/composables/useChecklist'
+import { useCompletionCrafting } from '@/composables/useCompletion'
 import { useFoodQuantities } from '@/composables/useFoodQuantities'
 import CraftingIngredientSummary from '@/components/CraftingIngredientSummary.vue'
 import CraftingCard from '@/components/CraftingCard.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
-import SearchBar from '@/components/SearchBar.vue'
+import SearchBar from '@/components/SearchBar.vue'    
 import ViewToggle from '@/components/ViewToggle.vue'
 import Footer from '@/components/Footer.vue'
 import { ArrowLeft } from 'lucide-vue-next'
@@ -125,8 +125,8 @@ const search = ref('')
 const layout = ref<'grid' | 'list'>('grid')
 const selectedCategory = ref<string | null>(null)
 
-const { toggle, isChecked } = useChecklist('stardew-crafting')
-const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletedFoods('stardew-completed-crafting')
+const { toggle, isChecked } = useChecklistCrafting()
+const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletionCrafting()
 const { setQuantity, getQuantity, quantities } = useFoodQuantities('stardew-crafting-quantities')
 
 const filteredItems = computed(() => {

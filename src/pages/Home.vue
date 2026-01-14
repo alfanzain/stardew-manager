@@ -12,7 +12,7 @@
               Stardew Manager
             </h1>
             <p class="text-xs text-muted-foreground">
-              Your farm companion for tracking achievements
+              Prepare for your daily activities and track your progress
             </p>
           </div>
         </div>

@@ -119,8 +119,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { foods, buffCategories } from '@/data/foods'
-import { useChecklist } from '@/composables/useChecklist'
-import { useCompletedFoods } from '@/composables/useCompletedFoods'
+import { useChecklistCooking } from '@/composables/useChecklist'
+import { useCompletionCooking } from '@/composables/useCompletion'
 import { useFoodQuantities } from '@/composables/useFoodQuantities'
 import IngredientSummary from '@/components/IngredientSummary.vue'
 import FoodCard from '@/components/FoodCard.vue'
@@ -137,8 +137,8 @@ const selectedBuff = ref<string | null>(null)
 const showBuffInfo = ref(false)
 const showRecipeSource = ref(false)
 
-const { toggle, isChecked } = useChecklist('stardew-foods')
-const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletedFoods('stardew-completed-foods')
+const { toggle, isChecked } = useChecklistCooking()
+const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletionCooking()
 const { setQuantity, getQuantity, quantities } = useFoodQuantities('stardew-food-quantities')
 
 const filteredFoods = computed(() => {

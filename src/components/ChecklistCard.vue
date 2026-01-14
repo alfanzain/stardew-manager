@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ChevronRight } from 'lucide-vue-next'
-import { useCompletedFoods } from '@/composables/useCompletedFoods'
+import { useCompletionCooking, useCompletionCrafting } from '@/composables/useCompletion'
 import { foods } from '@/data/foods'
 import { craftingItems } from '@/data/crafting'
 

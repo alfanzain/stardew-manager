@@ -166,9 +166,9 @@
 import { computed } from 'vue'
 import { foods, Ingredient } from '@/data/foods'
 import { craftingItems, CraftingIngredient } from '@/data/crafting'
-import { useChecklist } from '@/composables/useChecklist'
+import { useChecklistCooking, useChecklistCrafting } from '@/composables/useChecklist'
 import { useFoodQuantities } from '@/composables/useFoodQuantities'
-import { useCompletedFoods } from '@/composables/useCompletedFoods'
+import { useCompletionCooking, useCompletionCrafting } from '@/composables/useCompletion'
 import { Leaf, Milk, Fish, Pickaxe, Store, FlaskConical, TreeDeciduous, Sword, CheckCircle, Circle } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
@@ -179,13 +179,13 @@ interface AggregatedIngredient {
   isDone: boolean
 }
 
-const { isChecked: isCookingChecked, clearAll: clearAllCookingChecks } = useChecklist('stardew-foods')
+const { isChecked: isCookingChecked, clearAll: clearAllCookingChecks } = useChecklistCooking()
 const { quantities: cookingQuantitiesRef } = useFoodQuantities('stardew-food-quantities')
-const { isCompleted: isCookingCompleted, toggleCompleted: toggleCookingCompleted } = useCompletedFoods('stardew-completed-foods')
+const { isCompleted: isCookingCompleted, toggleCompleted: toggleCookingCompleted } = useCompletionCooking()
 
-const { isChecked: isCraftingChecked, clearAll: clearAllCraftingChecks } = useChecklist('stardew-crafting')
+const { isChecked: isCraftingChecked, clearAll: clearAllCraftingChecks } = useChecklistCrafting()
 const { quantities: craftingQuantitiesRef } = useFoodQuantities('stardew-crafting-quantities')
-const { isCompleted: isCraftingCompleted, toggleCompleted: toggleCraftingCompleted } = useCompletedFoods('stardew-completed-crafting')
+const { isCompleted: isCraftingCompleted, toggleCompleted: toggleCraftingCompleted } = useCompletionCrafting()
 
 const cookingQuantities = computed(() => cookingQuantitiesRef.value)
 const craftingQuantities = computed(() => craftingQuantitiesRef.value)
