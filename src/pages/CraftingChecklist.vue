@@ -72,10 +72,10 @@
           v-for="item in filteredItems"
           :key="item.id"
           :item="item"
-          :is-checked="isChecked(item.id)"
+          :is-checked="isInTodo(item.id)"
           :is-completed="isCompleted(item.id)"
           :quantity="getQuantity(item.id)"
-          :on-toggle="() => toggle(item.id)"
+          :on-toggle="() => toggleTodo(item.id)"
           :on-toggle-completed="() => toggleCompleted(item.id)"
           :on-quantity-change="(qty) => setQuantity(item.id, qty)"
           :layout="layout"
@@ -125,7 +125,7 @@ const search = ref('')
 const layout = ref<'grid' | 'list'>('grid')
 const selectedCategory = ref<string | null>(null)
 
-const { toggle, isChecked } = useChecklistCrafting()
+const { toggleTodo, isInTodo } = useChecklistCrafting()
 const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletionCrafting()
 const { setQuantity, getQuantity, quantities } = useFoodQuantities('stardew-crafting-quantities')
 
@@ -146,7 +146,7 @@ const filteredItems = computed(() => {
 })
 
 const checkedItemIds = computed(() => 
-  craftingItems.filter(i => isChecked(i.id)).map(i => i.id)
+  craftingItems.filter(i => isInTodo(i.id)).map(i => i.id)
 )
 
 const completedProgressData = computed(() => completedProgress(craftingItems.length))
