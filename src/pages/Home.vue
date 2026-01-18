@@ -1,8 +1,5 @@
 <template>
-  <div class="min-h-screen bg-background pl-8">
-    <!-- Achievement Indicator -->
-    <AchievementIndicator />
-
+  <div class="min-h-screen bg-background">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div class="container max-w-5xl py-4">
@@ -144,7 +141,6 @@ import ChecklistCard from '@/components/ChecklistCard.vue'
 import OverallIngredients from '@/components/OverallIngredients.vue'
 import NotesPad from '@/components/NotesPad.vue'
 import Footer from '@/components/Footer.vue'
-import AchievementIndicator from '@/components/AchievementIndicator.vue'
 
 const overallIngredientsRef = ref<InstanceType<typeof OverallIngredients> | null>(null)
 const showClearConfirm = ref(false)
