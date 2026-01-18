@@ -1,5 +1,6 @@
 <template>
-  <div class="min-h-screen bg-background">
+  <div class="min-h-screen bg-background pl-8">
+    <!-- Achievement Indicator -->
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div class="container max-w-5xl py-4">
@@ -128,6 +129,7 @@ import ProgressBar from '@/components/ProgressBar.vue'
 import SearchBar from '@/components/SearchBar.vue'
 import ViewToggle from '@/components/ViewToggle.vue'
 import Footer from '@/components/Footer.vue'
+import AchievementIndicator from '@/components/AchievementIndicator.vue'
 import { ArrowLeft } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
