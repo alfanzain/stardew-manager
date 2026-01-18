@@ -373,5 +373,13 @@ const clearAllCrafting = () => {
   clearAllCraftingChecks()
 }
 
-defineExpose({ startNewDay, hasAnyItems })
+// Clear all items from Daily Prep
+const clearAll = () => {
+  clearAllCookingChecks()
+  clearAllCraftingChecks()
+  clearCookingIngredients()
+  clearCraftingIngredients()
+}
+
+defineExpose({ startNewDay, clearAll, hasAnyItems })
 </script>
