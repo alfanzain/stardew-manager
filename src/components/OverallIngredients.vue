@@ -220,14 +220,22 @@ interface AggregatedIngredient {
 }
 
 // Cooking checklist - use isDone for marking recipes ready
-const { isInTodo: isCookingInTodo, isDone: isCookingDone, toggleDone: toggleCookingDone, clearAll: clearAllCookingChecks } = useChecklistCooking()
+const { isInTodo: isCookingInTodo, isDone: isCookingDone, toggleDone: toggleCookingDone, clearAll: clearAllCookingChecks, clearDoneOnly: clearCookingDoneOnly } = useChecklistCooking()
 const { quantities: cookingQuantitiesRef } = useFoodQuantities('stardew-food-quantities')
-const { isDone: isCookingIngredientDone, toggleDone: toggleCookingIngredientDone } = useCookingIngredientsDone()
+const { isDone: isCookingIngredientDone, toggleDone: toggleCookingIngredientDone, clearAll: clearCookingIngredients } = useCookingIngredientsDone()
 
 // Crafting checklist - use isDone for marking items ready
-const { isInTodo: isCraftingInTodo, isDone: isCraftingDone, toggleDone: toggleCraftingDone, clearAll: clearAllCraftingChecks } = useChecklistCrafting()
+const { isInTodo: isCraftingInTodo, isDone: isCraftingDone, toggleDone: toggleCraftingDone, clearAll: clearAllCraftingChecks, clearDoneOnly: clearCraftingDoneOnly } = useChecklistCrafting()
 const { quantities: craftingQuantitiesRef } = useFoodQuantities('stardew-crafting-quantities')
-const { isDone: isCraftingIngredientDone, toggleDone: toggleCraftingIngredientDone } = useCraftingIngredientsDone()
+const { isDone: isCraftingIngredientDone, toggleDone: toggleCraftingIngredientDone, clearAll: clearCraftingIngredients } = useCraftingIngredientsDone()
+
+// New Day function - resets all done states but keeps todo intact
+const startNewDay = () => {
+  clearCookingDoneOnly()
+  clearCraftingDoneOnly()
+  clearCookingIngredients()
+  clearCraftingIngredients()
+}
 
 const cookingQuantities = computed(() => cookingQuantitiesRef.value)
 const craftingQuantities = computed(() => craftingQuantitiesRef.value)
@@ -364,4 +372,6 @@ const clearAllCooking = () => {
 const clearAllCrafting = () => {
   clearAllCraftingChecks()
 }
+
+defineExpose({ startNewDay, hasAnyItems })
 </script>

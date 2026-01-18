@@ -40,16 +40,28 @@
         <!-- Left: Daily Prep -->
         <div class="bg-card border border-border rounded-xl overflow-hidden">
           <div class="p-4 border-b border-border bg-muted/30">
-            <h2 class="font-heading text-lg font-semibold text-foreground flex items-center gap-2">
-              <ShoppingBasket class="w-5 h-5 text-primary" />
-              Daily Prep
-            </h2>
-            <p class="text-xs text-muted-foreground mt-1">
-              Today's recipes and ingredients to gather
-            </p>
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="font-heading text-lg font-semibold text-foreground flex items-center gap-2">
+                  <ShoppingBasket class="w-5 h-5 text-primary" />
+                  Daily Prep
+                </h2>
+                <p class="text-xs text-muted-foreground mt-1">
+                  Today's recipes and ingredients to gather
+                </p>
+              </div>
+              <button
+                v-if="overallIngredientsRef?.hasAnyItems"
+                @click="handleNewDay"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/20 hover:bg-accent/40 text-accent-foreground text-xs font-medium transition-all border border-accent/30 hover:border-accent/50"
+              >
+                <Sunrise class="w-3.5 h-3.5" />
+                New Day
+              </button>
+            </div>
           </div>
           <div class="p-4">
-            <OverallIngredients />
+            <OverallIngredients ref="overallIngredientsRef" />
           </div>
         </div>
 
@@ -77,11 +89,18 @@
 </template>
 
 <script setup lang="ts">
-import { Sprout, ClipboardList, ShoppingBasket, StickyNote } from 'lucide-vue-next'
+import { ref } from 'vue'
+import { Sprout, ClipboardList, ShoppingBasket, StickyNote, Sunrise } from 'lucide-vue-next'
 import ChecklistCard from '@/components/ChecklistCard.vue'
 import OverallIngredients from '@/components/OverallIngredients.vue'
 import NotesPad from '@/components/NotesPad.vue'
 import Footer from '@/components/Footer.vue'
+
+const overallIngredientsRef = ref<InstanceType<typeof OverallIngredients> | null>(null)
+
+const handleNewDay = () => {
+  overallIngredientsRef.value?.startNewDay()
+}
 
 interface Checklist {
   id: string

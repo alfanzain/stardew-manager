@@ -107,6 +107,11 @@ export function useChecklist(storageKey: string) {
     done.value = new Set()
   }
 
+  // Clear only done states (for New Day reset)
+  const clearDoneOnly = () => {
+    done.value = new Set()
+  }
+
   return { 
     todo, 
     done,
@@ -118,6 +123,7 @@ export function useChecklist(storageKey: string) {
     doneItems,
     progress, 
     clearAll,
+    clearDoneOnly,
     // Legacy aliases for backward compatibility
     checked: todo,
     toggle: toggleTodo,
