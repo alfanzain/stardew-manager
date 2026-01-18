@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 /* Completion is the term that refers to the list of items that have been completed (being cooked, crafted, etc.).
  * Completion items are stored in localStorage as a Set of strings.
@@ -24,9 +24,13 @@ export function useCompletion(storageKey: string) {
     }
   }
   const completed = ref<Set<string>>(new Set(parsedData))
+  // Explicit counter ref that we update manually to ensure reactivity
+  const completedCount = ref(parsedData.length)
 
   watch(completed, (newCompleted) => {
     localStorage.setItem(storageKey, JSON.stringify([...newCompleted]))
+    // Update the counter when Set changes
+    completedCount.value = newCompleted.size
   }, { deep: true, immediate: false })
 
   const toggleCompleted = (id: string) => {
@@ -37,23 +41,41 @@ export function useCompletion(storageKey: string) {
       next.add(id)
     }
     completed.value = next
+    // Explicitly update the counter for immediate reactivity
+    completedCount.value = next.size
   }
 
   const isCompleted = (id: string) => completed.value.has(id)
   
-  const progress = (total: number) => ({
-    completed: completed.value.size,
-    total,
-    percentage: total > 0 ? Math.round((completed.value.size / total) * 100) : 0
-  })
+  // Progress function - must be called inside a computed to ensure reactivity
+  // It uses completedCount which is a computed, ensuring Vue tracks the dependency
+  const progress = (total: number) => {
+    // Use completedCount.value to ensure Vue tracks the dependency
+    const count = completedCount.value
+    return {
+      completed: count,
+      total,
+      percentage: total > 0 ? Math.round((count / total) * 100) : 0
+    }
+  }
 
-  return { completed, toggleCompleted, isCompleted, progress }
+  return { completed, toggleCompleted, isCompleted, progress, completedCount }
 }
 
+// Singleton instances to ensure all components share the same reactive state
+let cookingInstance: ReturnType<typeof useCompletion> | null = null
+let craftingInstance: ReturnType<typeof useCompletion> | null = null
+
 export function useCompletionCooking() {
-  return useCompletion('stardew-completion-cooking')
+  if (!cookingInstance) {
+    cookingInstance = useCompletion('stardew-completion-cooking')
+  }
+  return cookingInstance
 }
 
 export function useCompletionCrafting() {
-  return useCompletion('stardew-completion-crafting')
+  if (!craftingInstance) {
+    craftingInstance = useCompletion('stardew-completion-crafting')
+  }
+  return craftingInstance
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="min-h-screen bg-background pl-8">
     <!-- Achievement Indicator -->
+    <AchievementIndicator />
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div class="container max-w-5xl py-4">
@@ -140,7 +141,7 @@ const showBuffInfo = ref(false)
 const showRecipeSource = ref(false)
 
 const { toggleTodo, isInTodo } = useChecklistCooking()
-const { toggleCompleted, isCompleted, progress: completedProgress } = useCompletionCooking()
+const { toggleCompleted, isCompleted, completedCount } = useCompletionCooking()
 const { setQuantity, getQuantity, quantities } = useFoodQuantities('stardew-food-quantities')
 
 const filteredFoods = computed(() => {
@@ -171,7 +172,14 @@ const checkedFoodIds = computed(() =>
   foods.filter(f => isInTodo(f.id)).map(f => f.id)
 )
 
-const completedProgressData = computed(() => completedProgress(foods.length))
+const completedProgressData = computed(() => {
+  const count = completedCount.value
+  return {
+    completed: count,
+    total: foods.length,
+    percentage: foods.length > 0 ? Math.round((count / foods.length) * 100) : 0
+  }
+})
 
 const quantitiesObject = computed(() => quantities.value)
 

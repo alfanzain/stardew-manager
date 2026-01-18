@@ -151,10 +151,18 @@ import { cn } from '@/lib/utils'
 
 const showModal = ref(false)
 
-const { progress: cookingProgressFn } = useCompletionCooking()
+const { completedCount } = useCompletionCooking()
 
 const totalRecipes = foods.length
-const cookingProgress = computed(() => cookingProgressFn(totalRecipes))
+// Directly compute progress using completedCount to ensure reactivity
+const cookingProgress = computed(() => {
+  const count = completedCount.value
+  return {
+    completed: count,
+    total: totalRecipes,
+    percentage: totalRecipes > 0 ? Math.round((count / totalRecipes) * 100) : 0
+  }
+})
 
 const achievements = computed(() => {
   const completed = cookingProgress.value.completed
