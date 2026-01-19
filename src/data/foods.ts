@@ -71,7 +71,8 @@ export const foods: Food[] = [
     name: "Salad",
     ingredients: [
       { name: "Leek", quantity: 1, source: "Foraging (Spring)" },
-      { name: "Dandelion", quantity: 1, source: "Foraging (Spring)" }
+      { name: "Dandelion", quantity: 1, source: "Foraging (Spring)" },
+      { name: "Vinegar", quantity: 1, source: "Pierre's Shop" }
     ],
     source: "Emily (Mail, 3+ Hearts)",
     recipeSource: { type: 'mail', character: 'Emily', hearts: 3 },
@@ -655,7 +656,8 @@ export const foods: Food[] = [
     name: "Seafoam Pudding",
     ingredients: [
       { name: "Flounder", quantity: 1, source: "Fishing (Spring/Summer)" },
-      { name: "Midnight Carp", quantity: 1, source: "Fishing (Fall/Winter, Night)" }
+      { name: "Midnight Carp", quantity: 1, source: "Fishing (Fall/Winter, Night)" },
+      { name: "Squid Ink", quantity: 1, source: "Squid or Midnight Squid" }
     ],
     source: "Fishing Level 9",
     recipeSource: { type: 'skill', skillType: 'Fishing', skillLevel: 9 },
