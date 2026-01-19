@@ -911,5 +911,99 @@ export const foods: Food[] = [
     source: "The Queen of Sauce (Year 2, Fall 21)",
     recipeSource: { type: 'tv', tvDate: 'Year 2, Fall 21' },
     sellPrice: 275
+  },
+  {
+    id: "shrimp-cocktail",
+    name: "Shrimp Cocktail",
+    ingredients: [
+      { name: "Tomato", quantity: 1, source: "Farming (Summer)" },
+      { name: "Shrimp", quantity: 1, source: "Crab Pot" },
+      { name: "Wild Horseradish", quantity: 1, source: "Foraging (Spring)" }
+    ],
+    source: "The Queen of Sauce (Year 2, Winter 28)",
+    recipeSource: { type: 'tv', tvDate: 'Year 2, Winter 28' },
+    sellPrice: 160
+  },
+  {
+    id: "ginger-ale",
+    name: "Ginger Ale",
+    ingredients: [
+      { name: "Ginger", quantity: 3, source: "Foraging (Ginger Island)" },
+      { name: "Sugar", quantity: 1, source: "Mill or Shop" }
+    ],
+    source: "Dwarf Shop (Volcano Dungeon, 1000g)",
+    recipeSource: { type: 'shop', price: 1000 },
+    sellPrice: 200,
+    buff: { type: 'luck', value: 1, duration: '5m 35s' }
+  },
+  {
+    id: "banana-pudding",
+    name: "Banana Pudding",
+    ingredients: [
+      { name: "Banana", quantity: 1, source: "Farming (Ginger Island)" },
+      { name: "Milk", quantity: 1, source: "Cow" },
+      { name: "Sugar", quantity: 1, source: "Mill or Shop" }
+    ],
+    source: "Island Trader (30 Bone Fragments)",
+    recipeSource: { type: 'shop' },
+    sellPrice: 260
+  },
+  {
+    id: "mango-sticky-rice",
+    name: "Mango Sticky Rice",
+    ingredients: [
+      { name: "Mango", quantity: 1, source: "Farming (Ginger Island)" },
+      { name: "Coconut", quantity: 1, source: "Oasis Shop or Ginger Island" },
+      { name: "Rice", quantity: 1, source: "Mill", subIngredients: [{ name: "Unmilled Rice", quantity: 1, source: "Farming (Spring)" }] }
+    ],
+    source: "Leo (Mail, 7+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Leo', hearts: 7 },
+    sellPrice: 250
+  },
+  {
+    id: "poi",
+    name: "Poi",
+    ingredients: [
+      { name: "Taro Root", quantity: 4, source: "Farming (Ginger Island)" }
+    ],
+    source: "Leo (Mail, 3+ Hearts)",
+    recipeSource: { type: 'mail', character: 'Leo', hearts: 3 },
+    sellPrice: 400
+  },
+  {
+    id: "tropical-curry",
+    name: "Tropical Curry",
+    ingredients: [
+      { name: "Coconut", quantity: 1, source: "Oasis Shop or Ginger Island" },
+      { name: "Pineapple", quantity: 1, source: "Farming (Ginger Island)" },
+      { name: "Hot Pepper", quantity: 1, source: "Farming (Summer)" }
+    ],
+    source: "Ginger Island Resort (2000g)",
+    recipeSource: { type: 'shop', price: 2000 },
+    sellPrice: 500,
+    buff: { type: 'foraging', value: 4, duration: '5m 35s' }
+  },
+  {
+    id: "squid-ink-ravioli",
+    name: "Squid Ink Ravioli",
+    ingredients: [
+      { name: "Squid Ink", quantity: 1, source: "Squid or Midnight Squid" },
+      { name: "Wheat Flour", quantity: 1, source: "Mill or Shop" },
+      { name: "Tomato", quantity: 1, source: "Farming (Summer)" }
+    ],
+    source: "Combat Level 9",
+    recipeSource: { type: 'skill', skillType: 'Combat', skillLevel: 9 },
+    sellPrice: 150,
+    buff: { type: 'mining', value: 1, duration: '4m 39s' }
+  },
+  {
+    id: "moss-soup",
+    name: "Moss Soup",
+    ingredients: [
+      { name: "Moss", quantity: 20, source: "Trees (Foraging)" }
+    ],
+    source: "Foraging Level 3",
+    recipeSource: { type: 'skill', skillType: 'Foraging', skillLevel: 3 },
+    sellPrice: 80
   }
 ];
